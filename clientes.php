@@ -10,73 +10,96 @@
 <?php 
  	include("models/config.php");
    	session_start();
-    ?>
-	<div class="container" id="registrarCliente">
-		<button type="button" class="Registrar_usuario btn btn-info1" data-toggle="modal" data-target="#registrar_cliente">Registrar nuevo cliente</button>
-		<div class="modal fade" id="registrar_cliente" role="dialog">
-			<div class="modal-dialog">
-		    
-		      <!-- Modal content-->
-		      	<div class="modal-content">
-		        	<div class="modal-header">
-			          <button type="button" class="close" data-dismiss="modal">&times;</button>
-			          <h1 class="modal-title"><b>Registrar nuevo cliente</b></h1>
-		        	</div>
-		        	<div class="modal-body">
-			         <form method="POST" action="insertar.php">
-						<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
-							<h4 style="float: left;" class="col-md-5"><b>Nombres </b><span>:</span></h4>
-							<input name="nombres" class="col-md-6" id="nombres" style="float: left;" cols="30" rows="1">
-						</div>
-						<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
-							<h4 style="float: left;" class="col-md-5"><b>Apellido paterno </b><span>:</span></h4>
-							<input name="ape_paterno" class="col-md-6" id="ape_paterno" style="float: left;" cols="30" rows="1">
-						</div>
-						<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
-							<h4 style="float: left;" class="col-md-5"><b>Apellido materno </b><span>:</span></h4>
-							<input name="ape_materno" class="col-md-6" id="ape_materno" style="float: left;" cols="30" rows="1">
-						</div>
-						<div class=" col-xs-12 col-md-12 input-content sinpa_sm multiselec_service" >
-							<h4 style="float: left;" class="col-md-5"><b>Tipo de documento </b><span>:</span></h4>
-								<?php 
-							    	$sql="SELECT * FROM tipo_docs";
-							    	$result = mysqli_query($db,$sql);
-			   						while($row = mysqli_fetch_array($result)) {
-								?>	
-								<input style="margin-top: 10px;" name="tipo_docu" id="tipo_docu" type="radio"  value="<?php echo $row["id"];?>"/> <?php echo $row["nombre"];?> <span>&nbsp;&nbsp;<span/>   
-			   					
-								<?php   
+   	//Verificar si existe la carpeta C:/fotografías
+	$sql="SELECT * FROM Disco order by id desc limit 1";
+    $result= mysqli_query($db, $sql);
+    while($row = mysqli_fetch_array($result)) {
+    	$disco_actual=$row["numero"];
+    }
+   	$dir = "C:\\fotografias";
+   	if(!is_dir($dir)){
+   		?>
+   		<script type="text/javascript">
+   			
+   			alert("Ha realizado un backup, por favor etiquete la carpeta como: Backup "<?php echo $disco_actual ?>);
+   		</script>
+   		<?php
+   		$result= mysqli_query($db,"insert into disco(numero)values($disco_actual+1)");
 
-			   						}
-						     	?>
-						</div>
-						<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
-							<h4 style="float: left;" class="col-md-5"><b>N° documento </b><span>:</span></h4>
-							<input type="text" class="col-md-6"  maxlength="506" name="num_documento" style="float: left;" id="num_documento" rows="1">
-						</div>
-						<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
-							<h4 style="float: left;" class="col-md-5"><b>Teléfono </b><span>:</span></h4>
-							<input type="text" class="col-md-6"  maxlength="20" name="num_celular" style="float: left;" id="num_celular" rows="1">
-						</div>
-						<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
-							<h4 style="float: left;" class="col-md-5"><b>Dirección </b><span>:</span></h4>
-							<input type="text" class="col-md-6"  maxlength="20" name="direccion_cliente" style="float: left;" id="direccion_cliente" rows="1">
-						</div>
-						<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
-							<h4 style="float: left;" class="col-md-5"><b>Correo electrónico </b><span>:</span></h4>
-							<input type="email" class="col-md-6"  maxlength="20" name="correo_electronico" style="float: left;" id="correo_electronico" rows="1">
-						</div>
-						<input id="registrar_usuario" type="submit" name="registrar_usuario" value="Guardar datos">
-					</form>
-					<br>
-			        </div>
-			        <div class="modal-footer">
-			           
-			        </div>
-		      	</div>
-		   	</div>
-		</div>
-	</div>
+   	}
+
+
+
+
+    ?>
+    <?php 
+    	
+    ?>
+    <div class="nombre_disco"><p>Disco Actual:<?php echo $disco_actual ?></p></div>
+		<button type="button" class="Registrar_usuario btn btn-info1" data-toggle="modal" data-target="#registrar_cliente">Registrar nuevo cliente</button>
+			<div class="modal fade" id="registrar_cliente" role="dialog">
+				<div class="modal-dialog">
+			    
+			      <!-- Modal content-->
+			      	<div class="modal-content">
+			        	<div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h1 class="modal-title"><b>Registrar nuevo cliente</b></h1>
+			        	</div>
+			        	<div class="modal-body">
+				         <form method="POST" action="insertar.php">
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
+								<h4 style="float: left;" class="col-md-5"><b>Nombres </b><span>:</span></h4>
+								<input name="nombres" class="col-md-6" id="nombres" style="float: left;" cols="30" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
+								<h4 style="float: left;" class="col-md-5"><b>Apellido paterno </b><span>:</span></h4>
+								<input name="ape_paterno" class="col-md-6" id="ape_paterno" style="float: left;" cols="30" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
+								<h4 style="float: left;" class="col-md-5"><b>Apellido materno </b><span>:</span></h4>
+								<input name="ape_materno" class="col-md-6" id="ape_materno" style="float: left;" cols="30" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm multiselec_service" >
+								<h4 style="float: left;" class="col-md-5"><b>Tipo de documento </b><span>:</span></h4>
+									<?php 
+								    	$sql="SELECT * FROM tipo_docs";
+								    	$result = mysqli_query($db,$sql);
+				   						while($row = mysqli_fetch_array($result)) {
+									?>	
+									<input style="margin-top: 10px;" name="tipo_docu" id="tipo_docu" type="radio"  value="<?php echo $row["id"];?>"/> <?php echo $row["nombre"];?> <span>&nbsp;&nbsp;<span/>   
+				   					
+									<?php   
+
+				   						}
+							     	?>
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
+								<h4 style="float: left;" class="col-md-5"><b>N° documento </b><span>:</span></h4>
+								<input type="text" class="col-md-6"  maxlength="20" name="num_documento" style="float: left;" id="num_documento" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
+								<h4 style="float: left;" class="col-md-5"><b>Teléfono </b><span>:</span></h4>
+								<input type="text" class="col-md-6"  maxlength="20" name="num_celular" style="float: left;" id="num_celular" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
+								<h4 style="float: left;" class="col-md-5"><b>Dirección </b><span>:</span></h4>
+								<input type="text" class="col-md-6"  maxlength="40" name="direccion_cliente" style="float: left;" id="direccion_cliente" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
+								<h4 style="float: left;" class="col-md-5"><b>Correo electrónico </b><span>:</span></h4>
+								<input type="email" class="col-md-6"  maxlength="40" name="correo_electronico" style="float: left;" id="correo_electronico" rows="1">
+							</div>
+							<input id="registrar_usuario" type="submit" name="registrar_usuario" value="Registrar Usuario">
+						</form>
+						<br>
+				        </div>
+				        <div class="modal-footer">
+				           
+				        </div>
+			      	</div>
+			   	</div>
+			</div>
 	<div class="modal fade" id="agregarServicio" role="dialog">
 	    <div class="modal-dialog">
 	      <div class="modal-content">
@@ -165,6 +188,69 @@
 	    </div>
 	</div>
 
+	<div class="modal fade" id="actualizar_cliente" role="dialog">
+				<div class="modal-dialog">
+			    
+			      <!-- Modal content-->
+			      	<div class="modal-content">
+			        	<div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h1 class="modal-title"><b>Actualizar datos cliente</b></h1>
+			        	</div>
+			        	<div class="modal-body">
+				         <form method="POST" action="actualizar_cliente.php">
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
+								<h4 style="float: left;" class="col-md-5"><b>Nombres </b><span>:</span></h4>
+								<input name="nombres" class="col-md-6" value="" id="nombre_actu" style="float: left;" cols="30" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
+								<h4 style="float: left;" class="col-md-5"><b>Apellido paterno </b><span>:</span></h4>
+								<input name="ape_paterno" class="col-md-6" value="" id="ape_paterno_actu" style="float: left;" cols="30" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm">
+								<h4 style="float: left;" class="col-md-5"><b>Apellido materno </b><span>:</span></h4>
+								<input name="ape_materno" class="col-md-6" value="" id="ape_materno_actu" style="float: left;" cols="30" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm multiselec_service" >
+								<h4 style="float: left;" class="col-md-5"><b>Tipo de documento </b><span>:</span></h4>
+									<?php 
+								    	$sql="SELECT * FROM tipo_docs";
+								    	$result = mysqli_query($db,$sql);
+				   						while($row = mysqli_fetch_array($result)) {
+									?>	
+									<input style="margin-top: 10px;" name="tipo_docu" id="tipo_docu_actu" type="radio"  value="<?php echo $row["id"];?>"/> <?php echo $row["nombre"];?> <span>&nbsp;&nbsp;<span/>   
+				   					
+									<?php   
+
+				   						}
+							     	?>
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
+								<h4 style="float: left;" class="col-md-5"><b>N° documento </b><span>:</span></h4>
+								<input type="text" class="col-md-6" value="" maxlength="506" name="num_documento" style="float: left;" id="num_documento_actu" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
+								<h4 style="float: left;" class="col-md-5"><b>Teléfono </b><span>:</span></h4>
+								<input type="text" class="col-md-6" value="" maxlength="40" name="num_celular" style="float: left;" id="num_celular_actu" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
+								<h4 style="float: left;" class="col-md-5"><b>Dirección </b><span>:</span></h4>
+								<input type="text" class="col-md-6" value="" maxlength="40" name="direccion_cliente" style="float: left;" id="direccion_cliente_actu" rows="1">
+							</div>
+							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
+								<h4 style="float: left;" class="col-md-5"><b>Correo electrónico </b><span>:</span></h4>
+								<input type="email" class="col-md-6" value="" maxlength="40" name="correo_electronico" style="float: left;" id="correo_electronico_actu" rows="1">
+							</div>
+							<input id="registrar_usuario" type="submit" name="actualizar_usuario" value="Actualizar Cliente">
+						</form>
+						<br>
+				        </div>
+				        <div class="modal-footer">
+				           
+				        </div>
+			      	</div>
+			   	</div>
+			</div>
 	<div class="container sinpa">
 		<h1>Buscador de clientes</h1>
 		<br>
@@ -211,7 +297,6 @@
 					        <td width="50px"><b>Agregar servicio</b></td>
 					        <td width="50px"><b>Buscar</b></td>
 					        <td width="50px"><b>Modificar</b></td>
-					        <td width="50px"><b>Eliminar</b></td>
 					    </tr>
 					</thead>
 				    <tbody>
@@ -261,8 +346,15 @@
 					        <td><?php echo $row["email1"];?></td>
 					        <td><center><a  data-toggle="modal" class="abrir-reg" documento="<?php echo $row["documento"];?>" nombre="<?php echo $row["nombres"]." ".$row["ap_paterno"]." ".$row["ap_materno"];?>"><img src="app/img/inicio/agregar.png" alt=""></a></center></td>
 						    <td><center><a  data-toggle="modal" class="abrir-search" documento="<?php echo $row["documento"];?>" nombre="<?php echo $row["nombres"]." ".$row["ap_paterno"]." ".$row["ap_materno"];?>"><img src="app/img/inicio/lupa.png" alt=""></a></center></td>
-						    <td><center><a href="#"><img src="app/img/inicio/editar.png" alt=""></a></center></td>
-						    <td><center><a href="#"><img src="app/img/inicio/borrar.png" alt=""></a></center></td>
+						    <td id="editar_cliente"
+						    	nombres="<?php echo $row["nombres"]?>" 
+						    	ap_paterno="<?php echo $row["ap_paterno"]?>" 
+						    	ap_materno="<?php echo $row["ap_materno"]?>" 
+						    	direccion="<?php echo $row["direccion"]?>" 
+						    	telefono="<?php echo $row["telefono"]?>" 
+						    	email1="<?php echo $row["email1"]?>" 
+						    	documento="<?php echo $row["documento"]?>" 
+						    ><center><a data-toggle="modal" class="abrir-update"><img src="app/img/inicio/editar.png" alt=""></a></center></td>
 						</tr>
 		   				<?php 
 		   					}
@@ -316,6 +408,25 @@
 			_modal.modal('show');
 		});
 
+		$('.abrir-update').click(function(e){
+			var _this = $("#editar_cliente");
+			var _nombres = _this.attr('nombres');
+			var _ap_paterno = _this.attr('ap_paterno');
+			var _ap_materno = _this.attr('ap_materno');
+			var _documento = _this.attr('documento');
+			var _direccion = _this.attr('direccion');
+			var _telefono = _this.attr('telefono');
+			var _email1 = _this.attr('email1');
+			var _modal = $('#actualizar_cliente');
+			$('#nombre_actu').val(_nombres); 
+			$('#ape_paterno_actu').val(_ap_paterno); 
+			$('#ape_materno_actu').val(_ap_materno); 
+			$('#num_documento_actu').val(_documento); 
+			$('#direccion_cliente_actu').val(_direccion); 
+			$('#num_celular_actu').val(_telefono); 
+			$('#correo_electronico_actu').val(_email1); 
+			_modal.modal('show');
+		});
 
 		$('.abrir-search').click(function(e){
 			var _this = $(this);

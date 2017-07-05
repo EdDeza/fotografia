@@ -21,26 +21,32 @@ $v4 = @$_POST['i_nombre_servicio'];
 ?>
 <script>
 $(window).ready(function(){
-	$("#input_sin_retocar").fileinput({
-		uploadUrl: "path/to/file",
+	$("#input_sin_retocar,#input_retocadas").fileinput({
+		uploadUrl: "upload.php",
 		language: "es",
 		uploadAsync: true,
 		minFileCount: 0,
 		maxFileCount: 20,
 		validateInitialCount: true
-	});
-	$("#input_retocadas").fileinput({
-		uploadUrl: "path/to/file",
-		language: "es",
-		uploadAsync: true,
-		minFileCount: 0,
-		maxFileCount: 20,
-		validateInitialCount: true
-	});
-	$('#input_sin_retocar').on('filepreupload', function(event, data, previewId, index) {
+	}); 
+	$('#input_retocadas').on('filepreupload', function(event, data, previewId, index) {
+		data.form.append('documento',$("#num_doc").val());
+		data.form.append('retoque',"1");
+		data.form.append('directory', 'C:/fotografias'); 
 
 	});
-	$('#input-update-excel-cuotas').on('fileuploaded', function(event, data, previewId, index) {
+	$('#input_sin_retocar').on('filepreupload', function(event, data, previewId, index) {
+		data.form.append('documento',$("#num_doc").val());
+		data.form.append('directory', 'C:/fotografias'); 
+
+	});
+	$('#input_retocadas,#input_sin_retocar').on('fileuploaded', function(event, data, previewId, index) {
+		console.log(data);
+
+	});
+	$('#input_retocadas,#input_sin_retocar').on('fileuploaderror', function(event, data, msg) {
+		console.log(data);
+		console.log(msg);
 
 	});
 });
@@ -52,26 +58,26 @@ $(window).ready(function(){
 </script>
 
 	<div class="container">
-		
+
 		<div class="col-xs-12 agregar_servicios_vista sinpa">
 			<h1>Administrar Servicio</h1>
-			<form method="POST" action="insertar_servicio.php">
+			<form method="POST" action="insertar_servicios.php">
 				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
 					<p class="sinpa col-md-3 col-xs-12">Nombres completos</p>
-					<input disabled="true" name="nombre" id="nombre" type="text" readonly value="<?php echo $v1; ?>" class="col-xs-12 col-md-9" >
+					<input  name="nombre" id="nombre" type="text" readonly value="<?php echo $v1; ?>" class="col-xs-12 col-md-9" >
 				</div>
 				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
 					<p class="sinpa col-md-3 col-xs-12">N° documento</p>
-					<input disabled="true" name="dni" id="dni" type="text" readonly value="<?php echo $v2; ?>" class="col-xs-12 col-md-9" >
+					<input  name="num_doc" id="num_doc" type="text" readonly value="<?php echo $v2; ?>" class="col-xs-12 col-md-9" >
 				</div>
 				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
 					<p class="sinpa col-md-3 col-xs-12">Tipo de servicio</p>
-					<input disabled="true" name="dni" id="dni" type="text" readonly value="<?php echo $v4; ?>" class="col-xs-12 col-md-9" >
+					<input  name="tipo_servicio" id="tipo_servicio" type="text" readonly value="<?php echo $v4; ?>" class="col-xs-12 col-md-9" >
 				</div>
 				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
 					<p class="sinpa col-md-3 col-xs-12">Fecha de registro</p>
-					<?php $fecha_actual=date("d/m/Y"); ?>
-					<input class="col-xs-12 col-md-9" disabled="true" name="fecha_salida" id="fecha_salida" value="<?php echo($fecha_actual); ?>" >
+					<?php $fecha_actual=date("Y/m/d"); ?>
+					<input class="col-xs-12 col-md-9"  name="fecha_registro" id="fecha_registro" value="<?php echo($fecha_actual); ?>" >
 				</div>
 				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
 					<p class="sinpa col-md-3 col-xs-12">Locación</p>
@@ -85,18 +91,29 @@ $(window).ready(function(){
 				</div>
 				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
 					<p class="sinpa col-md-3 col-xs-12">Fecha de evento</p>
+					<input name="fecha_evento" id="fecha_evento" type="date" class="col-xs-12 col-md-9" >
+				</div>
+				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
+					<p class="sinpa col-md-3 col-xs-12">Fecha de entrega</p>
 					<input name="fecha_entrega" id="fecha_entrega" type="date" class="col-xs-12 col-md-9" >
+				</div>
+				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
+					<p class="sinpa col-md-3 col-xs-12">Cantidad de fotos</p>
+					<input name="cant_fotos" id="cant_fotos" type="text" class="col-xs-12 col-md-9" >
+				</div>
+				<div class=" col-xs-12 col-md-6 input-content sinpa_sm">
+					<p class="sinpa col-xs-12" >Ruta: C:/fotografias/</p>
 				</div>
 				<div class=" col-xs-12 col-md-6 subir_archivos input-content sinpa_sm">
 					<p class="sinpa col-md-3 col-xs-12">Fotos retocadas</p>					
 					<input id="input_retocadas" name="input_retocadas[]" type="file" multiple=true class="file-loading">
 				</div>
-				<!--div class=" col-xs-12 col-md-6 subir_archivos input-content sinpa_sm">
+				<div class=" col-xs-12 col-md-6 subir_archivos input-content sinpa_sm">
 					<p class="sinpa col-md-3 col-xs-12">Fotos sin retocar</p>
 					<input id="input_sin_retocar" name="input_sin_retocar[]" type="file" multiple=true class="file-loading">
-				</div-->
+				</div>
 				<div class=" col-xs-12 btn_crear_servicio input-content sinpa_sm">	
-					<input type="submit" id="guardar_servicio" name="guardar_servicio" value="Crear">
+					<input type="submit" id="guardar_servicio" name="guardar_servicio" value="Registrar Sesión">
 				</div>
 
 			</form>

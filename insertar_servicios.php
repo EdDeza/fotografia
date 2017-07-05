@@ -1,70 +1,75 @@
 <HTML>
 <HEAD>
-<TITLE>Insertar.php</TITLE>
+<TITLE>Registrando servicio ...</TITLE>
 </HEAD>
 <BODY>
 <?php 
 
-$c1 = @$_POST['num_documento'];
-$c2 = @$_POST['nombres'];
-$c3 = @$_POST['ape_paterno'];
-$c4 = @$_POST['ape_materno'];
-$c5 = @$_POST['direccion_cliente'];
-$c6 = @$_POST['tipo_docu'];
-$c7 = @$_POST['num_celular'];
-$c8 = @$_POST['correo_electronico'];
-$v1 = @$_POST['i_nombres_completos'];
-$v2 = @$_POST['i_dni_cliente'];
-$v3 = @$_POST['i_tipo_documento'];
-$v4 = @$_POST['i_nombre_servicio'];
+$num_doc            = @$_POST['num_doc'];
+$tipo_servicio      = @$_POST['tipo_servicio'];
+$fecha_recepcion    = @$_POST['fecha_registro'];
+$local              = @$_POST['interno'];
+$individual         = @$_POST['personal_grupal'];
+$fecha_evento       = @$_POST['fecha_evento'];
+$fecha_entrega      = @$_POST['fecha_entrega'];
+$fotos_cantidad     = @$_POST['cant_fotos'];
 
-$numero_doc = strip_tags($c1);       
-$numero_documento = strlen($numero_doc); 
-$nombre = strip_tags($c2);
-$n_nombre = strlen($nombre);
-$apellido_pater = strip_tags($c3);       
-$apellido_paterno = strlen($apellido_pater); 
-$apellido_mater = strip_tags($c4);       
-$apellido_materno = strlen($apellido_mater); 
-$direccion_clien = strip_tags($c5);       
-$direccion_client = strlen($direccion_clien); 
-$tipo_documen = strip_tags($c6);       
-$tipo_docu = strlen($tipo_documen); 
-$num_celu = strip_tags($c7);       
-$num_celular = strlen($num_celu); 
-$correo_elec = strip_tags($c8);       
-$correo_electronico = strlen($correo_elec); 
+if($fecha_recepcion){
+    $pattern1 = "/^(\d{2})-(\d{2})-(\d{4})$/";
+    $pattern2 = "/^([\d]{2})\/([\d]{2})\/([\d]{4})$/";
+    echo $fecha_recepcion."<br />";
+    if(preg_match($pattern1,$fecha_evento)){
+        die($fecha_recepcion);
+        $fecha_recepcion = preg_replace($pattern1,"\\3-\\2-\\1", $fecha_recepcion);
+    }
+    if(preg_match($pattern2,$fecha_evento)){
+        die($fecha_recepcion);
+        $fecha_recepcion = preg_replace($pattern2,"\\3-\\2-\\1", $fecha_recepcion);
+    }
+    
+}
 
-
-$fecha = date("d-m-Y H:i");  
-
-$total_carac =$numero_documento*$n_nombre*$apellido_paterno*$apellido_materno*$direccion_client*$tipo_docu*$num_celular * $correo_electronico; 
-
-if ($total_carac >= 1)   
-{   
+if($individual="Personal"){
+    $individual=1;
+}else{
+    $individual=2;
+}
     // Abrimos la conexion a la base de datos  
     include("models/config.php"); 
     session_start();
 
-    $_GRABAR_SQL = "INSERT INTO cliente (documento,nombres,ap_paterno,ap_materno,direccion,tipo_docs_id,telefono,email1) VALUES ('$c1','$c2','$c3','$c4','$c5','$c6','$c7','$c8')"; 
+    //Buscamos IDs
+    $sql="SELECT id FROM cliente WHERE documento='".$num_doc."'";
+    //echo $num_doc;
+    $result= mysqli_query($db,$sql); 
+    //echo $sql;
+    while($row = mysqli_fetch_array($result)){
+        $clientes_id = $row["id"];
+        //echo $clientes_id;
+    }
+        
+    $sql="SELECT * FROM Disco order by id desc limit 1";
+        $result= mysqli_query($db, $sql);
+        while($row = mysqli_fetch_array($result)) {
+            $disco_actual=$row["numero"];
+        }
+
+    $sql="SELECT id FROM tipo_servicios WHERE nombre='".$tipo_servicio."'";
+
+    $result2 = mysqli_query($db,$sql);
+
+    
+    while($row = mysqli_fetch_array($result2, MYSQL_ASSOC)){
+        $tipo_servicios_id = $row["id"];
+    }
+    //Registamos servicio
+    $_GRABAR_SQL = "INSERT INTO sesion_fotografica (clientes_id,fotos_cantidad,local,individual,fecha_recepcion,fecha_entrega,fecha_evento,estado, tipo_servicios_id, disco_id) VALUES ('$clientes_id','$fotos_cantidad','$local','$individual','$fecha_recepcion','$fecha_entrega','$fecha_evento','1','$tipo_servicios_id','$disco_actual')"; 
 
     mysqli_query($db,$_GRABAR_SQL); 
-    //echo $_GRABAR_SQL;
+    echo $_GRABAR_SQL;
+    header("location: clientes.php");
+    // Confirmamos que el registro ha sido insertado con exito 
       
-    // Confirmamos que el registro ha sido insertado con exito  
-    ?> 
-    <h1><div align="center">Registro Insertado</div></h1>
-	<div align="center"><a href="clientes.php">Regresar al inicio</a></div> 
-<?php 
-
-}  
-else  
-{  
-    echo "Los campos nombre, apellido paterno, apellido materno y numero de documento no pueden estar vacios.<br />";  
-   ?>  
-    <div align="center"><a href="clientes.php">Regresar al inicio</a></div>
-    <?php 
-}  
 ?>  
 </BODY>
 </HTML>

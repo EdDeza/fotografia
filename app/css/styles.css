@@ -1,4 +1,10 @@
+/*
+Carousel
+
+*/
+
 /* Login */
+
 body {
     padding-top: 20px;
 }
@@ -9,6 +15,21 @@ body {
 .login_container{
 	padding-top: 80px;
 	padding-bottom: 30px;
+}
+.nombre_disco p{
+	margin-bottom: 0;
+}
+.nombre_disco{
+	position: fixed;
+	right: 0;
+	top:100px;
+	padding-right: 10px;
+	padding-left: 10px;
+	padding-top: 5px;
+	padding-bottom: 5px;
+	background-color: white;
+	border: 3px solid #FFC500;
+	border-radius: 5px
 }
 .panel-login {
 	border-color: #ccc;
@@ -107,7 +128,13 @@ body {
 	border-color: #1CA347;
 }
 /*Header*/
-
+.ruta_fotos{
+	padding-left: 15px !important;
+	padding-right: 15px !important;
+}
+.ruta_fotos input{
+	border: 1px solid gray;
+}
 
 
 
@@ -137,7 +164,7 @@ button{
     padding: 10px;
     border-radius: 5px
 }
-#agregarServicio .modal-footer input{
+#agregarServicio .modal-footer input, .btn_crear_servicio input{
 	color: #efb309 !important;
     background-color: #171714;
     padding: 10px;
@@ -145,6 +172,9 @@ button{
 }
 .agregar_servicios_vista .input-content{
 	margin-bottom: 10px;
+}
+.modal-body, #registrar_cliente .modal-footer{
+	border-top: 0;
 }
 .agregar_servicios_vista{
 	padding-bottom: 50px;
@@ -183,7 +213,6 @@ button{
   padding: 0px 20px 20px;
   margin-top: 0px;
   text-align: right;
-  border-top: 1px solid #e5e5e5;
 }
 #registrar_cliente .input-content h4{
 	font-size: 18px;
@@ -238,6 +267,9 @@ button{
     border-bottom: 1px solid #eae5e5;
     border-left: 0;
     border-right: 0;	
+}
+.modal-footer{
+	border-top: 0 !important;
 }
 .Registrar_usuario{
 	z-index: 9999;
@@ -399,9 +431,8 @@ input[type="date"]{
 .vista_clientes input{	
 	padding-top: 5px;
 	padding-bottom: 5px;
-	border-right: 0;
-	border-top:0;
-	border-left: 0;
+	border: 1px solid #bdbdbd;
+	border-radius: 5px;
 }
 
 .vista_clientes .modal  input#registrar_usuario{	
@@ -442,6 +473,7 @@ input[type="date"]{
 
 
 .buscador_cliente input.buscador_cliente_submit{
+	margin-top: 10px;
 	color: #efb309 !important;
     background-color: #171714;
     padding: 6px;
