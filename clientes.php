@@ -213,21 +213,12 @@
 							</div>
 							<div class=" col-xs-12 col-md-12 input-content sinpa_sm multiselec_service" >
 								<h4 style="float: left;" class="col-md-5"><b>Tipo de documento </b><span>:</span></h4>
-									<?php 
-								    	$sql="SELECT * FROM tipo_docs";
-								    	$result = mysqli_query($db,$sql);
-				   						while($row = mysqli_fetch_array($result)) {
-									?>	
-									<input style="margin-top: 10px;" name="tipo_docu" id="tipo_docu_actu" type="radio"  value="<?php echo $row["id"];?>"/> <?php echo $row["nombre"];?> <span>&nbsp;&nbsp;<span/>   
-				   					
-									<?php   
-
-				   						}
-							     	?>
+								<input type="text" class="col-md-6" value="" disabled name="tipo_doc_actu" id="tipo_doc_actu" >
+									
 							</div>
 							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
 								<h4 style="float: left;" class="col-md-5"><b>N° documento </b><span>:</span></h4>
-								<input type="text" class="col-md-6" value="" maxlength="506" name="num_documento" style="float: left;" id="num_documento_actu" rows="1">
+								<input type="text" class="col-md-6" value="" maxlength="506" name="_documento"  style="float: left;" id="num_documento_actu" rows="1">
 							</div>
 							<div class=" col-xs-12 col-md-12 input-content sinpa_sm" >
 								<h4 style="float: left;" class="col-md-5"><b>Teléfono </b><span>:</span></h4>
@@ -333,6 +324,7 @@
 				    		} else {
 				    			$sql.= " AND '".$_nombre."'!=0";
 				    		}
+				    		echo $sql;
 						    $result = mysqli_query($db,$sql);
 
 		   					while($row = mysqli_fetch_array($result)) {
@@ -355,6 +347,7 @@
 						    	_direccion="<?php echo $row["direccion"];?>" 
 						    	_telefono="<?php echo $row["telefono"];?>" 
 						    	_email1="<?php echo $row["email1"];?>" 
+								_tipo_documento="<?php echo $row["tipo_docs_id"]; ?>" 
 						    	_documento="<?php echo $row["documento"]; ?>" 
 						    class="abrir-update"><img src="app/img/inicio/editar.png" alt=""></a></center></td>
 						</tr>
@@ -411,14 +404,27 @@
 			var _nombres = _this.attr('_nombres');
 			var _ap_paterno = _this.attr('_ap_paterno');
 			var _ap_materno = _this.attr('_ap_materno');
+			var _tipo_doc = _this.attr('_tipo_documento')
 			var _documento = _this.attr('_documento');
 			var _direccion = _this.attr('_direccion');
 			var _telefono = _this.attr('_telefono');
 			var _email1 = _this.attr('_email1');
 			var _modal = $('#actualizar_cliente');
+			if(_tipo_doc==1){
+				doc_name="DNI";
+			}
+			else if(_tipo_doc==2){
+				doc_name="RUC";
+			}
+			else if(_tipo_doc==3){
+				doc_name="PTP"
+			}
+			else
+				doc_name="PASAPORTE"
 			$('#nombre_actu').val(_nombres); 
 			$('#ape_paterno_actu').val(_ap_paterno); 
 			$('#ape_materno_actu').val(_ap_materno); 
+			$('#tipo_doc_actu').val(doc_name);			
 			$('#num_documento_actu').val(_documento); 
 			$('#direccion_cliente_actu').val(_direccion); 
 			$('#num_celular_actu').val(_telefono); 
