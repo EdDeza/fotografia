@@ -25,6 +25,7 @@
    		</script>
    		<?php
    		$result= mysqli_query($db,"insert into disco(numero)values($disco_actual+1)");
+   		mkdir("C:/fotografias", 0700);
    	}
 
 
