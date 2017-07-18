@@ -21,11 +21,10 @@
    		?>
    		<script type="text/javascript">
    			
-   			alert("Ha realizado un backup, por favor etiquete la carpeta como: Backup "<?php echo $disco_actual ?>);
+   			alert ("Ha realizado un backup, por favor etiquete la carpeta como: Backup "<?php echo $disco_actual ?>);
    		</script>
    		<?php
    		$result= mysqli_query($db,"insert into disco(numero)values($disco_actual+1)");
-
    	}
 
 
@@ -347,14 +346,16 @@
 					        <td><center><a  data-toggle="modal" class="abrir-reg" documento="<?php echo $row["documento"];?>" nombre="<?php echo $row["nombres"]." ".$row["ap_paterno"]." ".$row["ap_materno"];?>"><img src="app/img/inicio/agregar.png" alt=""></a></center></td>
 						    <td><center><a  data-toggle="modal" class="abrir-search" documento="<?php echo $row["documento"];?>" nombre="<?php echo $row["nombres"]." ".$row["ap_paterno"]." ".$row["ap_materno"];?>"><img src="app/img/inicio/lupa.png" alt=""></a></center></td>
 						    <td id="editar_cliente"
-						    	nombres="<?php echo $row["nombres"]?>" 
-						    	ap_paterno="<?php echo $row["ap_paterno"]?>" 
-						    	ap_materno="<?php echo $row["ap_materno"]?>" 
-						    	direccion="<?php echo $row["direccion"]?>" 
-						    	telefono="<?php echo $row["telefono"]?>" 
-						    	email1="<?php echo $row["email1"]?>" 
-						    	documento="<?php echo $row["documento"]?>" 
-						    ><center><a data-toggle="modal" class="abrir-update"><img src="app/img/inicio/editar.png" alt=""></a></center></td>
+						    	
+						    ><center><a data-toggle="modal" 
+								_nombres="<?php echo $row["nombres"];?>"
+						    	_ap_paterno="<?php echo $row["ap_paterno"];?>" 
+						    	_ap_materno="<?php echo $row["ap_materno"];?>" 
+						    	_direccion="<?php echo $row["direccion"];?>" 
+						    	_telefono="<?php echo $row["telefono"];?>" 
+						    	_email1="<?php echo $row["email1"];?>" 
+						    	_documento="<?php echo $row["documento"]; ?>" 
+						    class="abrir-update"><img src="app/img/inicio/editar.png" alt=""></a></center></td>
 						</tr>
 		   				<?php 
 		   					}
@@ -382,10 +383,6 @@
 			var tecla = document.all?tecla=e.keyCode:tecla=e.which;
 			return ((tecla>64 && tecla<91)|| (tecla>96 && tecla<123));
 		});
-		$("#ape_materno").keypress(function(e){
-			var tecla = document.all?tecla=e.keyCode:tecla=e.which;
-			return ((tecla>64 && tecla<91)|| (tecla>96 && tecla<123));
-		});
 		$("#num_documento").keypress(function(e){
 			var tecla = document.all?tecla=e.keyCode:tecla=e.which;
 			return ((tecla>47 && tecla<58)|| tecla==46);
@@ -409,14 +406,14 @@
 		});
 
 		$('.abrir-update').click(function(e){
-			var _this = $("#editar_cliente");
-			var _nombres = _this.attr('nombres');
-			var _ap_paterno = _this.attr('ap_paterno');
-			var _ap_materno = _this.attr('ap_materno');
-			var _documento = _this.attr('documento');
-			var _direccion = _this.attr('direccion');
-			var _telefono = _this.attr('telefono');
-			var _email1 = _this.attr('email1');
+			var _this = $(this);
+			var _nombres = _this.attr('_nombres');
+			var _ap_paterno = _this.attr('_ap_paterno');
+			var _ap_materno = _this.attr('_ap_materno');
+			var _documento = _this.attr('_documento');
+			var _direccion = _this.attr('_direccion');
+			var _telefono = _this.attr('_telefono');
+			var _email1 = _this.attr('_email1');
 			var _modal = $('#actualizar_cliente');
 			$('#nombre_actu').val(_nombres); 
 			$('#ape_paterno_actu').val(_ap_paterno); 

@@ -47,6 +47,7 @@ if ($total_carac >= 1)
     mysqli_query($db,$_GRABAR_SQL); 
     //echo $_GRABAR_SQL;
       
+    header("location: clientes.php");
     // Confirmamos que el registro ha sido insertado con exito  
     ?> 
     <h1><div align="center">Registro Insertado</div></h1>
